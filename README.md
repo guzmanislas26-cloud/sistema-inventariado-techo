@@ -277,7 +277,9 @@ Developed by **Luis Humberto Islas Guzmán** for **TECHO Puebla** 🏠💙
 
 ## 📄 License
 
-Internal use for TECHO Puebla. For external adaptation, contact the author.
+© 2026 Luis Humberto Islas Guzmán. All rights reserved.
+
+This repository is published as a portfolio piece to demonstrate technical skills. No use, copy, modification, or distribution is permitted.
 
 ---
 ---
@@ -557,4 +559,6 @@ Desarrollado por **Luis Humberto Islas Guzmán** para **TECHO Puebla** 🏠💙
 
 ## 📄 Licencia
 
-Uso interno de TECHO Puebla. Para adaptación externa, contactar al autor.
+© 2026 Luis Humberto Islas Guzmán. Todos los derechos reservados.
+
+Este repositorio se publica como evidencia de portafolio para demostrar habilidades técnicas. No se permite su uso, copia, modificación ni distribución.
