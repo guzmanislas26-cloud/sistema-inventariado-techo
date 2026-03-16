@@ -1,0 +1,1295 @@
+{
+  "name": "Bodeguín",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "effa6bfa-b979-4a88-855a-11960fab9b90",
+              "leftValue": "={{ $json.message.voice }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -48,
+        192
+      ],
+      "id": "c11d702b-4e9f-4bb3-98a0-f4fd57204551",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "73f3d1dd-1ea0-48d7-9e92-ca87ea607158",
+              "name": "mensaje",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        208
+      ],
+      "id": "1d1b9a26-9619-49c6-955d-d271f1761972",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "39e07f8b-cce4-4034-af0d-1ba6fa5c4bb6",
+              "name": "mensaje_final",
+              "value": "={{ $json.mensaje }}",
+              "type": "string"
+            },
+            {
+              "id": "b8133eae-c26a-48ad-a153-e12c80a66f29",
+              "name": "telegram_id",
+              "value": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        208
+      ],
+      "id": "58fcdd4b-801c-4cb7-a081-62c8fd3c0651",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -544,
+        192
+      ],
+      "id": "05a101f1-b5e5-4b90-ae96-f9f5a0bf42d5",
+      "name": "Telegram Trigger",
+      "webhookId": "a5f9b620-d739-4a5b-b537-b6eddec848c7",
+      "credentials": {
+        "telegramApi": {
+          "id": "gt5IcNe9dvXUsDjJ",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "articulos",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        1648,
+        320
+      ],
+      "id": "5ef2aa9b-e156-42dc-82d5-3bc418df392e",
+      "name": "articulos",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3MWvMLaJImPIFL78",
+          "name": "TCHO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "ubicaciones",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        1776,
+        336
+      ],
+      "id": "b18ef35a-c683-451d-bf4d-e5ed0b05451d",
+      "name": "ubicaciones",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3MWvMLaJImPIFL78",
+          "name": "TCHO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "inventario",
+        "returnAll": true,
+        "filterType": "none"
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        1904,
+        336
+      ],
+      "id": "2c16b9a0-aa04-476e-864d-7379f7b81ca5",
+      "name": "inventario",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3MWvMLaJImPIFL78",
+          "name": "TCHO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7e2943aa-f37e-4f38-adef-22cb47487600",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -336,
+        192
+      ],
+      "id": "ff5babf2-ff31-4cd9-bf99-f7329feb23ec",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        240
+      ],
+      "id": "2d758392-c1d0-4907-b85c-11867a5ede0f",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Oj9cV2MtU7IAHq43",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "usuarios",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        2016,
+        336
+      ],
+      "id": "855d99d8-0d53-49ff-8e66-11556c8b1e69",
+      "name": "usuarios",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3MWvMLaJImPIFL78",
+          "name": "TCHO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://imbuamomanenbqgjoiho.supabase.co/rest/v1/rpc/regresar_material",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"p_id_articulo\": \"{{ $fromAI('id_articulo') }}\",\n  \"p_cantidad\": \"{{ $fromAI('cantidad') }}\",\n  \"p_id_ubicacion_origen\": \"{{ $fromAI('id_ubicacion_origen') }}\",\n  \"p_id_usuario\": \"{{ $fromAI('id_usuario') }}\",\n  \"p_id_ubicacion_destino\": \"{{ $fromAI('id_ubicacion_destino') }}\",\n  \"p_estado\": \"{{ $fromAI('estado') }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        2272,
+        336
+      ],
+      "id": "712bdcc9-621e-4883-aa2f-9891814e3285",
+      "name": "regresar_material",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "eQRpBjbZzYIzDQGf",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://imbuamomanenbqgjoiho.supabase.co/rest/v1/rpc/pedir_material",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"p_id_articulo\": \"{{ $fromAI('id_articulo') }}\",\n  \"p_cantidad\": \"{{ $fromAI('cantidad') }}\",\n  \"p_id_ubicacion_origen\": \"{{ $fromAI('id_ubicacion_origen') }}\",\n  \"p_id_usuario\": \"{{ $fromAI('id_usuario') }}\",\n  \"p_id_ubicacion_destino\": \"{{ $fromAI('id_ubicacion_destino') }}\",\n  \"p_estado\": \"{{ $fromAI('estado') }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        2160,
+        336
+      ],
+      "id": "0258b2a7-1bba-4c17-b087-a40f0b226ab7",
+      "name": "pedir_material",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "eQRpBjbZzYIzDQGf",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://imbuamomanenbqgjoiho.supabase.co/rest/v1/rpc/regresar_todo_a_bodega",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"p_id_bodega\": \"{{ $fromAI('id_bodega') }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        2400,
+        336
+      ],
+      "id": "a225c77c-0a45-443b-bd70-bec0a191b7f6",
+      "name": "regresar_todo_a_bodega",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "eQRpBjbZzYIzDQGf",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger').first().json.message.from.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1552,
+        240
+      ],
+      "id": "7f96a8da-ed6b-4639-bfbe-edad6450dfdc",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=={{ $('Edit Fields2').first().json.mensaje_final }}",
+        "options": {
+          "systemMessage": "=# ROL\nSoy Bodeguín, voluntario de TECHO Puebla. Ayudo a encontrar herramientas y gestionar el inventario para construir comunidad y viviendas dignas.\n\n# MIS BASES DE DATOS\n**articulos**: catálogo (id_articulo, nombre, descripcion)\n**ubicaciones**: bodegas (id_ubicacion, nombre_lugar, direccion)\n**inventario**: stock actual (id_articulo, id_ubicacion, cantidad, estado)\n**usuarios**: voluntarios (id_usuario, nom_usuario, telefono_wa, rol)\n**vista_inventario**: vista completa (articulo, ubicacion, estado, cantidad, encargado)\n\n# ROLES\n- **Voluntario**: solo puede consultar inventario\n- **Staff**: puede consultar, pedir y regresar material\n- **Administrador**: puede todo, incluyendo regresar_todo_a_bodega\n\n# IDENTIFICACIÓN DE USUARIO\nEl telegram_id del usuario que escribe es: {{ $json.telegram_id }}\nAntes de cualquier acción de modificación, consulta la tabla `usuarios` filtrando por `telegram_id` para identificar al usuario y su rol. Nunca le pidas al usuario que se identifique manualmente.\n\n# BIENVENIDA\n\"¡Qué onda, Techero! 👋 Soy Bodeguín. ¿Qué herramienta andas buscando?\"\n\n# PROCESO DE CONSULTA\n1. Normalizar búsqueda (\"martillos\" → \"martillo\")\n2. Buscar en `articulos` → obtener id_articulo\n3. Consultar `inventario` → cantidad, estado, id_ubicacion\n4. Obtener ubicación de `ubicaciones`\n5. Responder con formato claro\n\n# FLUJO: PEDIR MATERIAL (Staff / Administrador)\nDatos obligatorios:\n- Artículo, Cantidad, Ubicación destino, Responsable\n\nPasos:\n1. Validar rol — si es Voluntario, rechazar amablemente\n2. Solicitar datos faltantes\n3. Verificar disponibilidad en inventario\n4. Mostrar resumen:\n   \"Vas a sacar:\n    - Artículo: X\n    - Cantidad: X\n    - Desde: Bodega Central\n    - Hacia: X\n    - Responsable: X\"\n5. Solicitar confirmación explícita\n6. Ejecutar RPC `pedir_material`\n7. Confirmar operación exitosa\n\n# FLUJO: REGRESAR MATERIAL (Staff / Administrador)\nDatos obligatorios:\n- Artículo, Cantidad, Ubicación origen, Responsable, Estado — DEBE ser exactamente uno de estos valores: \"Bueno\", \"Roto\", \"Perdido\", \"Reparacion\". Sin plurales, sin variaciones.\n\nPasos:\n1. Validar rol — si es Voluntario, rechazar amablemente\n2. Solicitar datos faltantes\n3. Mostrar resumen:\n   \"Vas a regresar:\n    - Artículo: X\n    - Cantidad: X\n    - Desde: X\n    - Usuario: X\n    - Estado: X\n    - Destino: Bodega Central\"\n4. Solicitar confirmación explícita\n5. Ejecutar RPC `regresar_material`\n6. Confirmar operación exitosa\n\n# FLUJO: REGRESAR TODO A BODEGA (Solo Administrador)\n1. Validar que sea Administrador\n2. Confirmar la bodega origen\n3. Mostrar resumen y solicitar confirmación\n4. Ejecutar RPC `regresar_todo_a_bodega`\n5. Confirmar operación exitosa\n\n# REGLAS DE SEGURIDAD\n❌ Nunca modificar tablas directamente\n❌ Nunca inventar IDs — siempre consultarlos primero\n❌ Nunca ejecutar acciones sin confirmación explícita\n❌ Voluntarios no pueden modificar inventario\n❌ No mostrar datos sensibles\n\n# FORMATO DE RESPUESTA\n**Búsqueda normal:**\n🛠️ [Nombre] - [Descripción]\n📍 Tenemos [total] disponibles:\n- [Bodega] ([Dirección])\n  └ Cantidad: [X] unidades\n  └ Estado: [Estado]\n\n**Inventario de bodega:**\n📦 Inventario en [Bodega]:\n🛠️ [Artículo]: [cantidad] unidades - [estado]\n\n# MI PERSONALIDAD\n✅ Cercano, solidario, optimista\n✅ Lenguaje mexicano natural sin forzar\n✅ Siempre propongo alternativas\n✅ Valoro el tiempo del voluntario\n❌ No soy frío, formal, negativo ni complicado\n\n# MANEJO DE ERRORES\n- Artículo no existe: \"No encontré '[término]'. ¿Tiene otro nombre?\"\n- Sin stock: \"Tenemos '[artículo]' pero no hay unidades. ¿Es urgente?\"\n- Ambiguo: \"Encontré varios: [lista]. ¿Cuál necesitas?\"\n- Sin permisos: \"Ey, para esa acción necesitas ser Staff o Admin 🙏\"\n\nCada herramienta cuenta. Cada voluntario merece buena ayuda. 🏠💙"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        1760,
+        -160
+      ],
+      "id": "94b3cef0-0251-402d-80e4-40230cfe2ec6",
+      "name": "Bodeguín"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1328,
+        1152
+      ],
+      "id": "3f2d69be-aed7-453b-a884-d80339af3c09",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Oj9cV2MtU7IAHq43",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Edit Fields2').item.json.telegram_id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1456,
+        1152
+      ],
+      "id": "8b4cea88-3286-4355-8ab3-68efd6079a07",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "articulos",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        1152
+      ],
+      "id": "78f744b9-0b19-451b-bca7-64d3238d3704",
+      "name": "articulos1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3MWvMLaJImPIFL78",
+          "name": "TCHO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "usuarios",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        1712,
+        1152
+      ],
+      "id": "a68b2f35-efd2-4ec2-991f-170855ad4011",
+      "name": "usuarios1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3MWvMLaJImPIFL78",
+          "name": "TCHO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "construcciones",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        1824,
+        1152
+      ],
+      "id": "46f4fb87-3433-40a0-ab8b-31f9cd9e6b4d",
+      "name": "construcciones",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3MWvMLaJImPIFL78",
+          "name": "TCHO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Edit Fields2').item.json.mensaje_final }}",
+        "options": {
+          "systemMessage": "=# ROL\nSoy Bodeguín Construye, asistente de TECHO Puebla especializado en construcciones. Ayudo a registrar y rastrear herramienta durante los fines de semana de construcción.\n\n# MIS BASES DE DATOS\nconstrucciones: id_construccion, nombre, ubicacion, fecha_inicio, fecha_fin\ncuadrillas: id_cuadrilla, id_construccion, nombre, id_lider (FK → usuarios)\nasignacion_herramienta: id_asignacion, id_cuadrilla, id_articulo, cantidad_asignada, cantidad_regresada, estado_regreso\narticulos: id_articulo, nombre, descripcion\nusuarios: id_usuario, nom_usuario, telefono_wa, rol, telegram_id\nvista_faltantes: cuadrilla, lider, articulo, cantidad_asignada, cantidad_regresada, cantidad_faltante, estado_regreso, construccion\n\n# ROLES\n- Voluntario: solo puede CONSULTAR\n- Staff / Administrador: puede consultar, asignar y registrar regresos\n\n# IDENTIFICACIÓN DE USUARIO\nEl telegram_id del usuario que escribe es: {{ $('Telegram Trigger').item.json.message.from.id }}\nAntes de cualquier acción, consulta la tabla usuarios filtrando por telegram_id. Nunca le pidas al usuario que se identifique manualmente.\n\n# BIENVENIDA\n\"¡Qué onda Techero! 👷 Soy Bodeguín Construye. ¿Qué necesitas registrar o consultar de la construcción?\"\n\n# FLUJO: ASIGNAR HERRAMIENTA A CUADRILLA (Staff / Administrador)\n1. Validar rol\n2. SIEMPRE consulta articulos primero con el término del usuario — usa el resultado más parecido SIN preguntar\n3. SIEMPRE consulta usuarios si mencionaron un nombre — obtén id_usuario y luego busca en cuadrillas donde id_lider = id_usuario SIN preguntar\n4. SIEMPRE busca en cuadrillas si mencionaron \"Cuadrilla X\" SIN preguntar\n5. Si falta cantidad o construcción, ESO SÍ puedes preguntar\n6. Muestra resumen y pide confirmación\n7. Ejecutar RPC asignar_herramienta\n\nPROHIBIDO: Preguntar por datos que puedes obtener consultando las tablas.\nPROHIBIDO: Preguntar en qué cuadrilla está alguien si ya dieron el nombre del líder.\nPROHIBIDO: Preguntar el nombre exacto del artículo si ya dieron un término de búsqueda.\n\n# FLUJO: REGISTRAR REGRESO DE HERRAMIENTA (Staff / Administrador)\nDatos obligatorios:\n- Cuadrilla\n- Artículo\n- Cantidad regresada\n- Estado — DEBE ser exactamente: \"Bueno\", \"Roto\", \"Perdido\", \"Reparacion\"\n\nPasos:\n1. Validar rol\n2. Identificar cuadrilla y artículo consultando las tablas\n3. Mostrar lo que tenía asignado esa cuadrilla de ese artículo\n4. Mostrar resumen:\n   \"Vas a registrar regreso:\n    - Cuadrilla: X\n    - Artículo: X\n    - Cantidad regresada: X\n    - Estado: X\"\n5. Solicitar confirmación explícita\n6. Ejecutar RPC regresar_herramienta_cuadrilla\n7. Confirmar operación exitosa\n\n# FLUJO: CONSULTAR QUÉ FALTA POR REGRESAR\n\n- Por cuadrilla: filtrar vista_faltantes por cuadrilla o lider\n- Por construcción completa: mostrar todo lo pendiente agrupado por cuadrilla\n\nLa vista_faltantes ya incluye los campos \"cuadrilla\" y \"lider\". SIEMPRE debes mostrarlos.\n\nFormato OBLIGATORIO:\n\n👷 Cuadrilla [cuadrilla] — Líder: [lider]\n⚠️ [articulo]: se fue con [cantidad_asignada], regresó [cantidad_regresada], falta [cantidad_faltante]\n❌ [articulo]: se fue con [cantidad_asignada], no ha regresado nada\n\nNUNCA reportes faltantes sin mencionar la cuadrilla y el líder.\nNUNCA omitas el campo \"cuadrilla\" ni el campo \"lider\" de la vista_faltantes.\nSi hay varias cuadrillas con faltantes, muéstralas todas agrupadas.\n\n# FLUJO: CONSULTAR CUADRILLAS DE UNA CONSTRUCCIÓN\n1. Consultar tabla construcciones para obtener id_construccion\n2. Consultar tabla cuadrillas filtrando por id_construccion\n3. Por cada cuadrilla obtenida, consultar tabla usuarios filtrando por id_usuario = id_lider para obtener nom_usuario\n4. Mostrar: \"Cuadrilla X — Líder: [nom_usuario]\"\nNUNCA mostrar id_lider ni ningún ID numérico al usuario.\n\n# REGLAS DE SEGURIDAD\n❌ Nunca preguntar en qué cuadrilla está alguien si mencionaron el nombre del líder — \n   consulta usuarios para obtener id_usuario, luego busca en cuadrillas donde id_lider = id_usuario\n❌ Nunca preguntar el nombre exacto del artículo sin antes buscarlo en la tabla articulos con el término que dio el usuario\n❌ Nunca modificar tablas directamente\n❌ Nunca inventar IDs — siempre consultarlos primero usando las tablas\n❌ Nunca ejecutar acciones sin confirmación explícita\n❌ Voluntarios no pueden modificar nada\n❌ Nunca mostrar IDs al usuario — siempre muestra nombres legibles consultando la tabla usuarios con id_lider para obtener nom_usuario\n\n# MANUAL DE PROCESOS CONSTRUCTIVOS\nSi el usuario pregunta sobre cualquiera de estos temas, incluye la señal [ENVIAR_MANUAL] al INICIO de tu respuesta:\n- Pasos o proceso para construir la vivienda\n- Cómo colocar o instalar materiales (pilotes, parrillas, columnas, cerchas, techo, etc.)\n- Técnicas de construcción\n- Dudas sobre el proceso constructivo de TECHO\n- Solicita el manual o guía de construcción\n- Preguntas sobre medidas, niveles, o procedimientos constructivos\n\nSi la pregunta es sobre herramienta, cuadrillas o asignaciones NO incluyas [ENVIAR_MANUAL].\n\n# FORMATO DE RESPUESTA\nIMPORTANTE: No uses markdown, negritas, asteriscos ni caracteres especiales de formato. Solo texto plano y emojis.\n\nInventario de cuadrilla:\n👷 Cuadrilla [nombre] — Líder: [nombre]\n🛠️ [Artículo]: [cantidad_asignada] asignadas\n   └ Regresadas: [cantidad_regresada] | Estado: [estado]\n\nFaltantes:\n⚠️ [Artículo]: se fue con [X], regresó [Y], falta [Z]\n❌ [Artículo]: se fue con [X], no ha regresado nada\n\n# MI PERSONALIDAD\n✅ Cercano, solidario, optimista\n✅ Lenguaje mexicano natural sin forzar\n✅ Siempre claro y directo\n❌ No soy frío, formal ni complicado\n\n# MANEJO DE ERRORES\n- Cuadrilla no encontrada: \"No encontré esa cuadrilla, ¿me das más datos?\"\n- Artículo no encontrado: \"No encontré '[término]', ¿tiene otro nombre?\"\n- Sin permisos: \"Ey, para esa acción necesitas ser Staff o Admin 🙏\"\n\nCada herramienta cuenta. Cada construcción es una familia con techo digno. 🏠💙"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        1856,
+        816
+      ],
+      "id": "6f370ad4-08de-4b09-b718-e8143e83df9f",
+      "name": "Bodeguín Construye"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "cuadrillas",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        1936,
+        1152
+      ],
+      "id": "52c45ba5-5add-4f5b-ab36-3138c961d449",
+      "name": "cuadrillas",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3MWvMLaJImPIFL78",
+          "name": "TCHO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "asignacion_herramienta",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        2064,
+        1152
+      ],
+      "id": "9c4c8e8f-47e0-4831-803d-158e44ea71f0",
+      "name": "asignacion_herramienta",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3MWvMLaJImPIFL78",
+          "name": "TCHO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "vista_faltantes",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        2208,
+        1152
+      ],
+      "id": "04141550-c17d-4e0a-82a1-2b377eb1620a",
+      "name": "vista_faltantes",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3MWvMLaJImPIFL78",
+          "name": "TCHO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://imbuamomanenbqgjoiho.supabase.co/rest/v1/rpc/asignar_herramienta",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"p_id_cuadrilla\": \"{{ $fromAI('id_cuadrilla') }}\",\n  \"p_id_articulo\": \"{{ $fromAI('id_articulo') }}\",\n  \"p_cantidad_asignada\": \"{{ $fromAI('cantidad_asignada') }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        2384,
+        1152
+      ],
+      "id": "fe6687ce-c9cc-4b93-9834-617a9ef7bd2f",
+      "name": "asignar_herramienta",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "eQRpBjbZzYIzDQGf",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://imbuamomanenbqgjoiho.supabase.co/rest/v1/rpc/regresar_herramienta_cuadrilla",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"p_id_cuadrilla\": \"{{ $fromAI('id_cuadrilla') }}\",\n  \"p_id_articulo\": \"{{ $fromAI('id_articulo') }}\",\n  \"p_cantidad_regresada\": \"{{ $fromAI('cantidad_regresada') }}\",\n  \"p_estado_regreso\": \"{{ $fromAI('estado_regreso') }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        2608,
+        1104
+      ],
+      "id": "9de3fbba-c783-46bf-906e-4e80ab8a0a80",
+      "name": "regresar_herramienta_cuadrilla",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "eQRpBjbZzYIzDQGf",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Clasifica el siguiente mensaje en una de estas dos categorías:\n\n- \"construye\": si el mensaje menciona cuadrillas, construcciones, asignar herramienta, faltantes, viviendas, líderes de cuadrilla, o registrar regreso de herramienta de una cuadrilla\n\n- \"bodega\": si el mensaje habla de inventario general de bodega, pedir material de bodega, o regresar material a bodega sin mencionar cuadrillas\n\nSi el campo ruta_detectada vale \"construye\" responde: construye\nSi el campo ruta_detectada vale \"bodega\" responde: bodega\nSi ruta_detectada es null, clasifica normalmente.\n\nruta_detectada: {{ $json.ruta_detectada }}\nMensaje: {{ $json.mensaje_final }}\n\nResponde ÚNICAMENTE: construye o bodega",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "message": "="
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        928,
+        224
+      ],
+      "id": "3e34ff4d-af3c-4f8e-9c37-89fb525cd528",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        928,
+        416
+      ],
+      "id": "5e7f4add-55c7-4c4f-9ed8-9ed51b74f634",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Oj9cV2MtU7IAHq43",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6ff6770c-c29a-4dff-9730-bdc966499bdd",
+              "leftValue": "={{ $json.text }}",
+              "rightValue": "construye",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1216,
+        224
+      ],
+      "id": "57ebfd54-7804-49e8-a3f6-82d3cc2e7e68",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const telegramId = $input.item.json.telegram_id;\nconst mensaje = $input.item.json.mensaje_final.toLowerCase().trim();\n\n// Palabras que indican respuesta corta/ambigua\nconst esAmbiguo = /^(si|sí|no|confirmo|correcto|es correcto|si confirmo|dale|ok|okay|va|sale|perfecto|listo|claro|si todo|todo bien|va bien|asi es|eso es)$/i.test(mensaje);\n\n// Palabras clave de cada agente\nconst keywordsConstruye = ['cuadrilla', 'construcción', 'construccion', 'asignar', 'faltantes', 'vivienda', 'regreso de herramienta', 'regresar herramienta'];\nconst keywordsBodega = ['bodega', 'inventario', 'pedir material', 'regresar material', 'ubicacion', 'ubicación'];\n\n// Static data para recordar último agente por usuario\nconst staticData = $getWorkflowStaticData('global');\n\nlet ruta = null;\n\nif (!esAmbiguo) {\n  // Mensaje claro — detectar por keywords\n  const esConstruye = keywordsConstruye.some(k => mensaje.includes(k));\n  const esBodega = keywordsBodega.some(k => mensaje.includes(k));\n  \n  if (esConstruye) ruta = 'construye';\n  else if (esBodega) ruta = 'bodega';\n  \n  // Guardar la ruta si la detectamos\n  if (ruta) {\n    staticData[`ruta_${telegramId}`] = ruta;\n  }\n} else {\n  // Mensaje ambiguo — usar última ruta guardada\n  ruta = staticData[`ruta_${telegramId}`] || null;\n}\n\nreturn [{\n  json: {\n    ...($input.item.json),\n    ruta_detectada: ruta\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        688,
+        208
+      ],
+      "id": "7c911c11-cdb3-4556-97ee-02333b8eb5d4",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $input.item.json.output || '';\n\nconst enviarManual = text.includes('[ENVIAR_MANUAL]');\n\nconst clean = text\n  .replace(/\\[ENVIAR_MANUAL\\]/g, '')\n  .replace(/\\*\\*(.*?)\\*\\*/g, '$1')\n  .replace(/\\*(.*?)\\*/g, '$1')\n  .replace(/__(.*?)__/g, '$1')\n  .replace(/`(.*?)`/g, '$1')\n  .replace(/#{1,6}\\s/g, '')\n  .replace(/\\[(.*?)\\]\\(.*?\\)/g, '$1')\n  .replace(/^\\s*\\*\\s/gm, '- ')\n  .replace(/└/g, '-')\n  .replace(/[^\\x00-\\x7F\\u00C0-\\u024F\\u0400-\\u04FF\\u2600-\\u27BF\\uD83C-\\uDBFF\\uDC00-\\uDFFF]/g, '')\n  .trim();\n\nreturn [{ json: { output: clean, enviar_manual: enviarManual } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2304,
+        816
+      ],
+      "id": "f5c80e8f-7230-44da-a348-1c7eb19b8c7c",
+      "name": "Limpeza de Señal Y markdown"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').first().json.message.chat.id }}",
+        "text": "={{ $('Limpeza de Señal Y markdown').item.json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2800,
+        912
+      ],
+      "id": "a780e106-b1ea-4153-8be8-cb81da86f302",
+      "name": "Enviar Mensaje",
+      "webhookId": "2f2e66b8-27c2-4411-bceb-6675d767257a",
+      "credentials": {
+        "telegramApi": {
+          "id": "gt5IcNe9dvXUsDjJ",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').first().json.message.chat.id }}",
+        "text": "={{ $('Limpeza de Señal Y markdown').item.json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2800,
+        688
+      ],
+      "id": "e46d0191-3f4a-4840-987a-134f5351c094",
+      "name": "Enviar Mensaje de Manual",
+      "webhookId": "2f2e66b8-27c2-4411-bceb-6675d767257a",
+      "credentials": {
+        "telegramApi": {
+          "id": "gt5IcNe9dvXUsDjJ",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendDocument",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "file": "https://imbuamomanenbqgjoiho.supabase.co/storage/v1/object/public/recursos-techo/VP_Manual_Constructivo.pdf",
+        "additionalFields": {
+          "caption": "Aqui tienes el Manual de Procesos Constructivos de TECHO 📋🏗️ Con esto traes todos los pasos para armar la vivienda. Cualquier duda aqui estoy 💙👷"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3008,
+        688
+      ],
+      "id": "470ab2b9-32f5-4c3f-843f-35e1cae6d21b",
+      "name": "Mandar manual",
+      "webhookId": "b07a107b-d737-4a88-8b2a-9bf51a587907",
+      "credentials": {
+        "telegramApi": {
+          "id": "gt5IcNe9dvXUsDjJ",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').first().json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2448,
+        -192
+      ],
+      "id": "69cee3c6-9c75-4cd7-b3c6-1fb0e1d83ec7",
+      "name": "Enviar Mensaje1",
+      "webhookId": "2f2e66b8-27c2-4411-bceb-6675d767257a",
+      "credentials": {
+        "telegramApi": {
+          "id": "gt5IcNe9dvXUsDjJ",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "43482506-b7cf-4106-96ec-e47fffe8ce05",
+              "leftValue": "={{ $json.enviar_manual }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2576,
+        816
+      ],
+      "id": "d8dd7060-a95e-4a7f-8927-4669e7529880",
+      "name": "ManualDeConstrucción??"
+    }
+  ],
+  "pinData": {
+    "Telegram Trigger": [
+      {
+        "json": {
+          "update_id": 276445906,
+          "message": {
+            "message_id": 363,
+            "from": {
+              "id": 1362704235,
+              "is_bot": false,
+              "first_name": "Esteban",
+              "last_name": "Garcia",
+              "language_code": "es"
+            },
+            "chat": {
+              "id": 1362704235,
+              "first_name": "Esteban",
+              "last_name": "Garcia",
+              "type": "private"
+            },
+            "date": 1772260201,
+            "text": "Que herramienta hay en Tepexco?"
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "articulos": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ubicaciones": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "inventario": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Bodeguín",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "usuarios": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "regresar_material": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pedir_material": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "regresar_todo_a_bodega": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Bodeguín",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bodeguín": {
+      "main": [
+        [
+          {
+            "node": "Enviar Mensaje1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Bodeguín Construye",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "Bodeguín Construye",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "articulos1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín Construye",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "usuarios1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín Construye",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "construcciones": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín Construye",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bodeguín Construye": {
+      "main": [
+        [
+          {
+            "node": "Limpeza de Señal Y markdown",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cuadrillas": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín Construye",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "asignacion_herramienta": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín Construye",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "vista_faltantes": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín Construye",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "asignar_herramienta": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín Construye",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "regresar_herramienta_cuadrilla": {
+      "ai_tool": [
+        [
+          {
+            "node": "Bodeguín Construye",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Bodeguín Construye",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Bodeguín",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limpeza de Señal Y markdown": {
+      "main": [
+        [
+          {
+            "node": "ManualDeConstrucción??",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Mensaje de Manual": {
+      "main": [
+        [
+          {
+            "node": "Mandar manual",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mandar manual": {
+      "main": [
+        []
+      ]
+    },
+    "ManualDeConstrucción??": {
+      "main": [
+        [
+          {
+            "node": "Enviar Mensaje de Manual",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "a7b1f060-bba0-4f27-af55-8ca93ec830fd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b83c7af91143adefceb874889e7a8957a8334c39c5abc1e9b950465bbdf2b920"
+  },
+  "id": "OckpaHIPDjLAoYpp",
+  "tags": []
+}
